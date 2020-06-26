@@ -63,7 +63,27 @@ void add_matrix(int rows, int cols, const float m1[][max_cols],
     }
 }
 
+void multiply_matrix(int rows1, int cols1, int rows2, int cols2,
+    const float m1[][max_cols], const float m2[][max_cols], 
+    float result[][max_cols]){
+    
+    if(cols1 == rows2){
+        float temp = 0.0f;
 
+        for(int i = 0; i < rows1; ++i){
+            for(int j = 0; j < cols2; ++j){
+                for(int k = 0; k < rows2; ++k){
+                    temp += m1[i][k] * m2[k][j]; 
+                }
+                result[i][j] = temp;
+                temp = 0.0f;
+            }
+        }
+    }
+    else{
+        result = NULL;
+    }
+}
 
 int main(){
     //ex 1
@@ -80,6 +100,21 @@ int main(){
     std::cout << std::endl;
     //end
 
+    //ex 2
+    int m = 3, n = 3, p = 4;
+    float m1[max_rows][max_cols], m2[max_rows][max_cols], 
+        result_mat[max_rows][max_cols];
+    get_matrix(m, n, m1, name);
+    get_matrix(n, p, m2, name);
+    std::cout << "Macierze do wymnozenia:\n";
+    print_matrix(m, n, m1, name);
+    std::cout << std::endl;
+    print_matrix(n, p, m2, name);
+    std::cout << std::endl;
+    std::cout << "Wynik:\n";
 
+    multiply_matrix(m, n, n, p, m1, m2, result_mat);
+    print_matrix(m, p, result_mat, name);
+    //end
     return 0;
 }
