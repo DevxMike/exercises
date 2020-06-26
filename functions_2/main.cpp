@@ -85,36 +85,84 @@ void multiply_matrix(int rows1, int cols1, int rows2, int cols2,
     }
 }
 
+void multiply_matrix_cols(int n, int m, const float m1[][max_cols], 
+    const float m2[][max_cols], float* result){
+    
+    float f[max_rows], l[max_rows];
+    for(int i = 0; i < n; ++i){
+        f[i] = m1[i][0];
+        l[i] = m2[i][m - 1];    
+    }
+    multiply_vect(m, f, l, result);
+}
+
+float min_max(int n, int m, const float m1[][max_cols],
+    float* max){
+    
+    float temp[max_rows];
+    for(int i = 0; i < n; ++i){
+        temp[i] = m1[i][m - 1];
+    }
+    return min_max(m, temp, max);
+}
+
+void max_min_vals(int n, int m, float m1[][max_cols],
+    float vector_min[max_rows], float vector_max[max_rows]){
+    float temp_max;    
+
+    for(int i = 0; i < n; ++i){ 
+        vector_min[i] = min_max(m, m1[i],&temp_max);
+        vector_max[i] = temp_max;
+    }
+}
+
+void max_min_cols(int n, int m, float m1[][max_cols], 
+    float vector_min[max_cols], float vector_max[max_cols]){
+    
+    float temp_vect[max_rows], max;
+    for(int i = 0; i < m; ++i){
+        for(int j = 0; j < n; ++j){
+            temp_vect[j] = m1[j][i];
+        }
+        vector_min[i] = min_max(m, temp_vect, &max);
+        vector_max[i] = max;
+    }
+}
 int main(){
-    //ex 1
-    float tab[max_rows][max_cols], result[3];
+    using namespace std;
+    /*
+    cout << "Podaj rozmiary macierzy A:\n";
+    int m, n;
+    cin >> m >> n;
+    float m1[max_rows][max_cols];
     char name[] = "matrix";
-    get_matrix(3, 3, tab, name);
-    print_matrix(3, 3, tab, name);
-    multiply_vect(3, tab[0], tab[1], result);
-    std::cout << "Wynik mnozenia dwoch wektorow w macierzy: ";
-    print_vector(3, result);
-    float max;
-    std::cout << "Min wartosc w wektorze: " << min_max(3, result, &max) << std::endl;
-    std::cout << "Max wartosc w wektorze: " << max << std::endl; 
-    std::cout << std::endl;
-    //end
-
-    //ex 2
-    int m = 3, n = 3, p = 4;
-    float m1[max_rows][max_cols], m2[max_rows][max_cols], 
-        result_mat[max_rows][max_cols];
     get_matrix(m, n, m1, name);
-    get_matrix(n, p, m2, name);
-    std::cout << "Macierze do wymnozenia:\n";
     print_matrix(m, n, m1, name);
-    std::cout << std::endl;
-    print_matrix(n, p, m2, name);
-    std::cout << std::endl;
-    std::cout << "Wynik:\n";
+    float v1[max_cols];
+    multiply_vect(n, m1[0], m1[m - 1], v1);
+    print_vector(n, v1);
+    multiply_matrix_cols(m, n, m1, m1, v1);
+    print_vector(n, v1);
+    float max;
+    cout << "Minimum: " << min_max(n, m1[m - 1], &max) << endl;
+    cout << "Maksimum: " << max << endl; 
 
-    multiply_matrix(m, n, n, p, m1, m2, result_mat);
-    print_matrix(m, p, result_mat, name);
-    //end
+    cout << "Minimum w ostatniej kolumnie: " << min_max(m, n, m1, &max) << endl;
+    cout << "Maksimum w ostatniej kolumnie: " << max << endl;
+
+    float max_vect[max_rows], min_vect[max_rows];
+    max_min_vals(m, n, m1, min_vect, max_vect);
+    cout << "Minimalne: ";
+    print_vector(m, min_vect);
+    cout << endl << "Maksymalne: " << endl;
+    print_vector(m, max_vect);
+
+    max_min_cols(m, n, m1, min_vect, max_vect);
+
+    cout << "\nMinimalne: ";
+    print_vector(m, min_vect);
+    cout << endl << "Maksymalne: " << endl;
+    print_vector(m, max_vect);
+    */
     return 0;
 }
