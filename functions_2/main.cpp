@@ -130,7 +130,7 @@ void max_min_cols(int n, int m, float m1[][max_cols],
 }
 int main(){
     using namespace std;
-    /*
+    /* zadanie 1
     cout << "Podaj rozmiary macierzy A:\n";
     int m, n;
     cin >> m >> n;
@@ -164,5 +164,31 @@ int main(){
     cout << endl << "Maksymalne: " << endl;
     print_vector(m, max_vect);
     */
+
+    //zadanie 2
+    float A[max_rows][max_cols], B[max_rows][max_cols], C[max_rows][max_cols];
+
+    char name1[] = "matrix A";
+    char name2[] = "matrix B";
+    char name3[] = "matrix C";
+
+    int n;
+    cout << "Podaj rozmiar macierzy kwadratowej: ";
+    cin >> n;
+    if(n > 0 && n <= max_rows){
+        get_matrix(n, n, A, name1);
+        get_matrix(n, n, B, name2);
+        get_matrix(n, n, C, name3);
+        print_matrix(n, n, A, name1);
+        print_matrix(n, n, B, name2);
+        print_matrix(n, n, C, name3);
+        float D[max_rows][max_cols], temp[max_rows][max_cols];
+        char name4[] = "matrix D", tmp_name[] = "temp";
+        multiply_matrix(n, n, n, n, A, B, temp);
+        add_matrix(n, n, C, temp, D);
+        print_matrix(n, n, temp, tmp_name);
+        print_matrix(n, n, D, name4);
+    }
+
     return 0;
 }
